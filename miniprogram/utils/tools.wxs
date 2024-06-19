@@ -1,0 +1,59 @@
+var weekDay = function (date) {
+  var datelist = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
+  return datelist[getDate(date).getDay()];
+};
+
+// /小于10的数字前面补0
+var padZero = function (num) {
+  return num >= 10 ? num : '0' + num
+}
+
+// 将日期转换成 指定格式，公支持 YYYY | M/MM | D/DD | H/HH | m/mm | s/ss
+var formatDate = function (time, format) {
+  var str = format ? format : "YYYY-MM-DD HH:mm:ss"
+  var date = getDate(time)
+  var fullYear = date.getFullYear()
+  var month = date.getMonth() + 1
+  var fullMonth = padZero(month)
+  var day = date.getDate()
+  var fullDay = padZero(day)
+  var hour = date.getHours()
+  var fullHour = padZero(hour)
+  var minute = date.getMinutes()
+  var fullMinute = padZero(minute)
+  var second = date.getSeconds()
+  var fullSecond = padZero(second)
+
+  str = str.replace(getRegExp('YYYY+', 'g'), fullYear)
+  str = str.replace(getRegExp('MM+', 'g'), fullMonth)
+  str = str.replace(getRegExp('M+', 'g'), month)
+  str = str.replace(getRegExp('DD+', 'g'), fullDay)
+  str = str.replace(getRegExp('D+', 'g'), day)
+  str = str.replace(getRegExp('HH+', 'g'), fullHour)
+  str = str.replace(getRegExp('H+', 'g'), hour)
+  str = str.replace(getRegExp('mm+', 'g'), fullMinute)
+  str = str.replace(getRegExp('m+', 'g'), minute)
+  str = str.replace(getRegExp('ss+', 'g'), fullSecond)
+  str = str.replace(getRegExp('s+', 'g'), second)
+
+  return str
+
+}
+//判断是否是晚上，通过日落时间判断是否是晚上，
+var isNight = function (sunsetTime) {
+  var nowHour = getDate().getHours()
+  var nowMinute = getDate().getMinutes()
+  var n = sunsetTime.split(":")
+  var sunHour = n[0]
+  var sunMinute = n[1]
+  nowM = nowHour * 60 + nowMinute
+  sunM = sunHour * 60 + sunMinute
+  return nowM > sunM
+}
+
+module.exports = {
+  formatDate: formatDate,
+  weekDay: weekDay,
+  formatDate: formatDate,
+  padZero: padZero
+};

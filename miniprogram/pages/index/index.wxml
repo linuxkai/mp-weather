@@ -1,0 +1,196 @@
+<!--pages/index.wxml-->
+<wxs src="../../utils/tools.wxs" module="tools"></wxs>
+<wxs module="indexTool">
+  var ifRain = function (str) {
+    var result = str.match('雨')
+    return result ? true : false
+  }
+  module.exports = {
+    ifRain: ifRain,
+  }
+</wxs>
+<swiper class="custom-swiper" indicator-dots indicator-active-color="#fff" indicator-height="{{windowInfo.windowHeight}}" bindchange="swiperChange">
+  <swiper-item wx:for="{{cityList}}" wx:key="id" wx:for-item="clItem">
+    <view class="container">
+      <!-- <view class="wallpaper">
+          <image src="../../images/background/11.jpg" class="wallpaper" mode="center"></image>
+        </view> -->
+      <view class="main" id="main123">
+        <view class="header">
+          <view class="header-left">
+            <t-icon name="add" size="50rpx" bindtap="cityAdd" />
+          </view>
+          <view class="header-right">
+            <t-icon name="view-list" size="50rpx" bindtap="showMenu" />
+          </view>
+          <view class="header-menu" wx:if="{{menuVisible}}">
+            <view class="menu-item" bindtap="goToCity">管理城市</view>
+            <t-divider />
+            <view class="menu-item" bindtap="goToSkin">皮肤设置</view>
+            <t-divider />
+            <view class="menu-item" bindtap="goToSetting">设置</view>
+
+          </view>
+        </view>
+        <view class="content" bindtap="handleGlobalTouchStart">
+          <view class="lives">
+            <view class="city">
+              <block wx:if="{{currCity.id == clItem.id}}">
+                <text>{{clItem.name}}</text>
+                <t-icon name="location" size="40rpx"></t-icon>
+              </block>
+              <block wx:else>
+                <text>{{clItem.name}}</text>
+              </block>
+            </view>
+            <view>
+              <text class="temp">{{nowWeather.now.temp}}</text>
+              <span class="sup">℃</span>
+            </view>
+            <view class="text">{{nowWeather.now.text}}</view>
+            <view class="text">{{nowWeather.now.windDir}} {{nowWeather.now.windScale}}级</view>
+          </view>
+          <view class="bg hour">
+            <scroll-view scroll-x="{{true}}" show-scrollbar="{{false}}" enhanced="{{true}}" class="scroll-container">
+              <view class="item" wx:for="{{hourWeather}}" wx:key="fxTime">
+                <view class="item-content">
+                  <text>{{item.fxTime}}</text>
+                </view>
+                <view class="item-content">
+                  <view wx:if="{{indexTool.ifRain(item.text)}}">
+                    <image src="../../images/icons/weather/{{item.icon}}-fill.png" mode="aspectFit" class="icon-sm" />
+                    <view>
+                      <text style="font-size: 25rpx;">{{item.pop}}%</text>
+                    </view>
+                  </view>
+                  <view wx:else>
+                    <image src="../../images/icons/weather/{{item.icon}}-fill.png" mode="aspectFit" class="icon" />
+                  </view>
+                </view>
+                <view class="item-content">
+                  <text>{{item.text}}</text>
+                </view>
+                <view class="item-content">
+                  <text>{{item.temp}}℃</text>
+                </view>
+              </view>
+            </scroll-view>
+          </view>
+          <view class="forecast bg">
+            <view class="title">
+              <text>多日预报</text>
+            </view>
+            <scroll-view scroll-x="{{true}}" show-scrollbar="{{false}}" enhanced="{{true}}" class="scroll-container">
+              <view class="item" wx:for="{{dayWeather}}" wx:key="fxDate">
+                <view class="item-content">
+                  <text>{{item.week}}</text>
+                </view>
+                <view class="item-content">
+                  <text>{{tools.formatDate(item.fxDate, "MM/DD")}}</text>
+                </view>
+                <view class="item-content">
+                  <image src="../../images/icons/weather/{{item.iconDay}}-fill.png" mode="aspectFit" class="icon" />
+                </view>
+                <view class="item-content">
+                  <text>{{item.text}}</text>
+                </view>
+                <view class="item-content">
+                  <text>{{item.tempMax}}/{{item.tempMin}}℃</text>
+                </view>
+              </view>
+            </scroll-view>
+          </view>
+          <view class="air-indices bg">
+            <view class="title">
+              <text>天气指数</text>
+            </view>
+            <scroll-view scroll-x="{{true}}" show-scrollbar="{{false}}" enhanced="{{true}}" class="scroll-container">
+              <view class="item" wx:for="{{weatherIndices}}" wx:key="name">
+                <view class="item-content">
+                  <image src="../../images/icons/warning/{{item.icon}}.png" mode="aspectFit" class="icon"></image>
+                </view>
+                <view class="item-content">
+                  <block wx:if="{{item.value.day}}">
+                    <text>{{tools.isNight(dayWeather[0].sunset) ? item.value.night : item.value.day}}</text>
+                  </block>
+                  <block wx:else>
+                    <text>{{item.value}}</text>
+                  </block>
+                </view>
+                <view class="item-content">
+                  <text>{{item.name}}</text>
+                </view>
+              </view>
+            </scroll-view>
+          </view>
+          <view class="bg aqi">
+            <view class="title">
+              <text>空气质量</text>
+            </view>
+            <view class="item" style="display: flex; justify-content: start;">
+              <view class="aqi-progress" style="margin-right: 30rpx;">
+                <canvas type="2d" id="{{'aqiCanvas-' + clItem.id}}"></canvas>
+              </view>
+              <view style=" width: 35%;">
+                <view style="width: 100%; margin: 10rpx 0;">
+                  <text style="font-size: 25rpx;">指数: {{airIndices.now.aqi}}</text>
+                </view>
+                <view style="width: 100%; margin: 10rpx 0;">
+                  <text style="font-size: 25rpx;">PM2.5: {{airIndices.now.pm2p5}}</text>
+                </view>
+                <view style="width: 100%; margin: 10rpx 0;">
+                  <text style="font-size: 25rpx;">PM10: {{airIndices.now.pm10}}</text>
+                </view>
+                <view style="width: 100%; margin: 10rpx 0;">
+                  <text style="font-size: 25rpx;">主要污染物: {{airIndices.now.primary}}</text>
+                </view>
+              </view>
+              <view style=" width: 35%;">
+                <view style="width: 100%; margin: 10rpx 0;">
+                  <text style="font-size: 25rpx;">二氧化氮: {{airIndices.now.no2}}</text>
+                </view>
+                <view style="width: 100%; margin: 10rpx 0;">
+                  <text style="font-size: 25rpx;">一氧化碳: {{airIndices.now.co}}</text>
+                </view>
+                <view style="width: 100%; margin: 10rpx 0;">
+                  <text style="font-size: 25rpx;">二氧化硫: {{airIndices.now.so2}}</text>
+                </view>
+                <view style="width: 100%; margin: 10rpx 0;">
+                  <text style="font-size: 25rpx;">臭氧: {{airIndices.now.o3}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+          <view class="sun bg">
+            <view class="title">
+              <text>日出日落</text>
+            </view>
+            <view class="item">
+              <view class="item-content">
+                <view class="sun-canvas">
+                  <canvas type="2d" id="{{'sunCanvas-' + clItem.id}}"></canvas>
+                </view>
+                <view style="border-top: 1px solid gray; display: flex; justify-content: space-between;">
+                  <view style="width: 20%; line-height: 2;">
+                    <text>日出 {{sunMoonInfo.sunrise}}</text>
+                    <text>月出 {{sunMoonInfo.moonrise}}</text>
+                  </view>
+                  <view style="width: 20%;padding-top: 10rpx; text-align: center;">
+                    <view>
+                      <image src="../../images/icons/moon_phase/{{sunMoonInfo.moonPhaseIcon}}.png" style="width: 40rpx; height: 40rpx;"></image>
+                    </view>
+                    <text>{{sunMoonInfo.moonPhase}}</text>
+                  </view>
+                  <view style="width: 20%; line-height: 2;">
+                    <text>日落 {{sunMoonInfo.sunset}}</text>
+                    <text>月落 {{sunMoonInfo.moonset}}</text>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </swiper-item>
+</swiper>

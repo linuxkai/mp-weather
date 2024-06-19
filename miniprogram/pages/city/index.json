@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "t-search": "tdesign-miniprogram/search/search",
+    "t-icon": "tdesign-miniprogram/icon/icon"
+  },
+  "navigationBarTitleText": "管理城市"
+}

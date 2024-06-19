@@ -1,0 +1,27 @@
+{
+  "entryPagePath": "pages/index/index",
+  "pages": [
+    "pages/index/index",
+    "pages/city/index",
+    "pages/city/add",
+    "pages/logs/logs",
+    "pages/setting/index",
+    "pages/skin/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "天气小程序",
+    "navigationBarBackgroundColor": "#1E90FF",
+    "backgroundColor": "#1E90FF"
+  },
+  "componentFramework": "glass-easel",
+  "lazyCodeLoading": "requiredComponents",
+  "usingComponents": {},
+  "requiredPrivateInfos": [
+    "getFuzzyLocation"
+  ],
+  "permission": {
+    "scope.userFuzzyLocation": {
+      "desc": "你的位置信息将用于获取当前位置以展示天气情况."
+    }
+  }
+}

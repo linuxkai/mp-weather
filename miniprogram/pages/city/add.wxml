@@ -1,0 +1,38 @@
+<!--pages/city/add.wxml-->
+<view class="container">
+  <view class="main">
+    <view class="search">
+      <t-search class="input" placeholder="搜索城市" shape="round" bindchange="searchCity" />
+    </view>
+    <view class="search-result bg" wx:if="{{searchResult.length > 0}}">
+      <view class="content" wx:for="{{searchResult}}" wx:key="id" data-id="{{item.id}}" data-name="{{item.name}}" data-from-search="true" bindtap="addCity">
+        <text>{{item.name}}, {{item.adm1}}, {{item.country}}</text>
+      </view>
+    </view>
+    <view class="no-result" hidden="{{!noResult}}">
+      <t-icon name="map-location" size="100rpx" />
+      <view class="demo__card-name">没有匹配的城市</view>
+    </view>
+    <view class="history bg" hidden="{{historyCityList.length>0 ? false : true}}">
+      <view class="title">
+        <text>搜索历史</text>
+        <text class="right" bindtap="clearHistory">清空</text>
+      </view>
+      <view class="item">
+        <view class="item-content" wx:for="{{historyCityList}}" wx:key="id" data-id="{{item.id}}" data-name="{{item.name}}" bindtap="addCity">
+          <text>{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="hotcity bg" hidden="{{ resultVisible }}">
+      <view class="title">
+        <text>热门城市</text>
+      </view>
+      <view class="item">
+        <view class="item-content" wx:for="{{hotCityList}}" wx:key="id" data-id="{{item.id}}" data-name="{{item.name}}" bindtap="addCity">
+          <text>{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

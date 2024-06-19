@@ -1,0 +1,68 @@
+<!--pages/city/index.wxml-->
+<view class="container">
+  <view class="main">
+    <view class="search">
+      <view class="left">
+        <t-search class="no-border" placeholder="搜索城市" shape="round" bindtap="goToCityAdd" />
+      </view>
+      <view class="right">
+        <t-icon name="add" size="64rpx" bindtap="goToCityAdd" />
+      </view>
+    </view>
+    <view class="city">
+      <!-- 默认定位城市，不可删除 -->
+      <view class="content" style="margin-bottom: 30rpx;">
+        <view class="background">
+          <image src="../../images/city_bg/qing.png" mode="center" />
+        </view>
+        <view class="top">
+          <view class="left" style="display: flex;justify-content:start; align-items: center;">
+            <t-icon name="location" size="48rpx"></t-icon>
+            <text>{{currCity.name}}</text>
+          </view>
+          <view class="right">
+            <text>{{currCity.temp}}℃</text>
+          </view>
+        </view>
+        <view class="bottom">
+          <view class="left">
+            <text>{{currCity.text}}</text>
+          </view>
+          <view class="right">
+            <text>{{currCity.tempMax}}/{{currCity.tempMin}}℃</text>
+          </view>
+        </view>
+      </view>
+      <movable-area wx:for="{{cityList}}" wx:key="id" wx:for-index="index">
+        <movable-view direction="horizontal" out-of-bounds inertia damping="200" friction="10" x="{{item.xmove}}">
+          <view class="movable-item" data-index="{{index}}" bindtouchstart="touchStart">
+            <view class="content">
+              <view class="background">
+                <image src="../../images/city_bg/qing.png" mode="center" />
+              </view>
+              <view class="top">
+                <view class="left">
+                  <text>{{item.name}}</text>
+                </view>
+                <view class="right">
+                  <text>{{item.temp}}℃</text>
+                </view>
+              </view>
+              <view class="bottom">
+                <view class="left">
+                  <text>{{item.text }}</text>
+                </view>
+                <view class="right">
+                  <text>{{item.tempMax}}/{{item.tempMin}}℃</text>
+                </view>
+              </view>
+            </view>
+            <view class="del-btn" data-id="{{item.id}}" data-index="{{index}}" catchtap="delCity">
+              <t-icon name="delete" size="64rpx" color="#B22222"></t-icon>
+            </view>
+          </view>
+        </movable-view>
+      </movable-area>
+    </view>
+  </view>
+</view>
