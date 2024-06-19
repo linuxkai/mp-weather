@@ -1,11 +1,7 @@
 import { requestSync } from "./common"
 
 export default class HefengApi {
-  apiArr = ['ec066a499fab4a2088f49b6ad1789bc4', '1b61768b723a4d2c876dd914dce1ef8e']
-  index = Math.floor((Math.random() * this.apiArr.length))
-  apiKey = this.apiArr[this.index]
-
-  // apiKey = "YOURAPIKEY"
+  apiKey = "YOURAPIKEY"
   baseUrl = "https://devapi.qweather.com"
   cityUrl = "https://geoapi.qweather.com"
 
