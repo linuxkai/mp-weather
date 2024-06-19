@@ -12,3 +12,6 @@ $RECYCLE.BIN/
 
 # Node.js
 node_modules/
+.miniprogram/miniprogram_npm/
+.miniprogram/node_modules/
+.miniprogram/package-lock.json

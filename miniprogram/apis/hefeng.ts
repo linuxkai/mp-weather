@@ -5,7 +5,7 @@ export default class HefengApi {
   index = Math.floor((Math.random() * this.apiArr.length))
   apiKey = this.apiArr[this.index]
 
-  // apiKey = "ec066a499fab4a2088f49b6ad1789bc4"
+  // apiKey = "YOURAPIKEY"
   baseUrl = "https://devapi.qweather.com"
   cityUrl = "https://geoapi.qweather.com"
 
