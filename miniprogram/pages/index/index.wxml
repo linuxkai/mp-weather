@@ -89,7 +89,7 @@
                   <text>{{tools.formatDate(item.fxDate, "MM/DD")}}</text>
                 </view>
                 <view class="item-content">
-                  <image src="../../images/icons/weather/{{item.iconDay}}-fill.png" mode="aspectFit" class="icon" />
+                  <image src="../../images/icons/weather/{{tools.isNight(dayWeather[0].sunset) ? item.iconNight : item.iconDay}}-fill.png" mode="aspectFit" class="icon" />
                 </view>
                 <view class="item-content">
                   <text>{{item.text}}</text>
